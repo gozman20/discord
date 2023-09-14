@@ -2,10 +2,6 @@ import { auth } from "@clerk/nextjs";
 import { createUploadthing, type FileRouter } from "uploadthing/next";
 
 const f = createUploadthing();
-/**
- * This is your Uploadthing file router. For more information:
- * @see https://docs.uploadthing.com/api-reference/server#file-routes
- */
 
 export const uploadRouter = {
   serverImage: f({
@@ -14,7 +10,7 @@ export const uploadRouter = {
       maxFileCount: 1,
     },
   })
-    .middleware(({ req }) => {
+    .middleware(() => {
       const { userId } = auth();
 
       if (!userId) {
@@ -29,7 +25,7 @@ export const uploadRouter = {
       console.log("upload completed", file);
     }),
   messageFile: f(["image", "pdf"])
-    .middleware(({ req }) => {
+    .middleware(() => {
       const { userId } = auth();
       if (!userId) {
         throw new Error("Please sign in");
